@@ -5,7 +5,7 @@ How to run simple demo application
 from demo2703/k8s folder
 
 connect to k8s cluster and run one by one following commands
-be sure command run successfully before running the next one
+be sure command run successfully before running the next one - I mean to verify the kubernetes resource is created and running
 
 kubectl apply -f 1-pod-postgres.yaml  
 kubectl apply -f 2-svc-postgres.yaml  
