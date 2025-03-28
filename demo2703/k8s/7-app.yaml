@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: status-page
+  labels:
+    app: main
+spec:
+  imagePullSecrets:
+  - name: reg-leshkin
+  containers:
+    - name: cnt1
+      image: rg.fr-par.scw.cloud/demoregistry/statusapp:v1
+      #command: [ "/bin/bash", "-c", "--" ]
+      #args: [ "while true; do sleep 30; done;" ]
+      command: [ "/bin/bash", "/opt/status-page/start2.sh" ]
+      args: ["/opt/status-page/start2.sh"]
+      volumeMounts:
+      - name: config-volume
+        mountPath: /opt/status-page/statuspage/statuspage/configuration.py
+        subPath: config1
+  volumes:
+    - name: config-volume
+      configMap:
+        name: cm-configuration

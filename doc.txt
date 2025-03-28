@@ -1,0 +1,74 @@
+
+postgres - create database
+redis (valkey)
+
+python - django (web framework)
+
+
+1) setup python virtual environment
+2) activate venv
+3) install dependencies - requirements.txt
+
+prepare config file - /opt/status-page/statuspage/statuspage/configuration.py
+
+4) init database - python3 statuspage/manage.py migrate  - one time init tables
+5) build static files - python3 statuspage/manage.py collectstatic --no-input"
+
+
+run application:
+development:
+python manage.py runserver 0.0.0.0:8000 --insecure
+
+prod: 
+gunicorn --bind 0.0.0.0:8000 statuspage.wsgi:application
+
+supervisord - 
+status-page.            python manage.py runserver 0.0.0.0:8000 --insecure
+status-page-scheduler.  ExecStart=/opt/status-page/venv/bin/python3 /opt/status-page/statuspage/manage.py rqscheduler
+status-page-rq          ExecStart=/opt/status-page/venv/bin/python3 /opt/status-page/statuspage/manage.py rqworker high default low
+
+
+################
+################
+Prepare basic image with all dependencies installed 
+docker hub 
+
+To run appliction - run docker image + mount volume with configuration + 
+
+
+###########
+1) run postgres
+docker run -d --name postgres10 -p 5432:5432 -e POSTGRES_PASSWORD=sdfdsfdsbdsstghrws postgres
+docker run -d --name postgres10 -e POSTGRES_PASSWORD=sdfdsfdsbdsstghrws postgres 
+
+172.17.0.2
+
+2) run redis
+docker run -d --name redis10 redis 
+
+172.17.0.8
+
+3) update configuration.py
+
+4) create database - statuspage
+sdfdsfdsbdsstghrws
+apt-get install -y postgresql-client
+psql -h 172.17.0.2 -p 5432 -U postgres
+CREATE DATABASE statuspage;
+\l
+
+5) 
+docker run -it --name initapp -v /home/ubuntu/environment/mart2025/configuration.py:/opt/status-page/statuspage/statuspage/configuration.py leshkin/nizanim:v12 /bin/bash
+
+. /opt/statuspage/myenv/bin/activate
+cd /opt/status-page/statuspage
+python manage.py migrate
+
+
+6) 
+docker run -d --name app10 -p 8009:8000 -v /home/ubuntu/environment/mart2025/configuration.py:/opt/status-page/statuspage/statuspage/configuration.py leshkin/nizanim:v12 /bin/bash /opt/status-page/start.sh
+
+python3 statuspage/manage.py collectstatic --no-input
+
+docker exec -it app10 /bin/bash
+

@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app-worker
+spec:
+  imagePullSecrets:
+  - name: reg-leshkin
+  containers:
+    - name: cnt1
+      image: leshkin/nizanim:v10
+      #command: [ "/bin/bash", "-c", "--" ]
+      #args: [ "while true; do sleep 30; done;" ]
+      command: [ "/bin/bash", "/opt/status-page/startworker.sh" ]
+      args: ["/opt/status-page/start.sh"]
+      volumeMounts:
+      - name: config-volume
+        mountPath: /opt/status-page/statuspage/statuspage/configuration.py
+        subPath: config1
+  volumes:
+    - name: config-volume
+      configMap:
+        name: cm-configuration

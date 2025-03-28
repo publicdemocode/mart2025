@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: valkey1
+  labels:
+    app: valkey
+spec:
+  hostname: valkey
+  containers:
+    - name: cnt1
+      image: valkey/valkey
+      ports:
+      - containerPort: 6379

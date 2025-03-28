@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-valkey
+spec:
+  selector:
+    app: valkey
+  ports:
+    - name: port5432
+      protocol: TCP
+      port: 6379
+      targetPort: 6379
